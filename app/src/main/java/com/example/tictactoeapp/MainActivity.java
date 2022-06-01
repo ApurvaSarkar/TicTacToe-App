@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                                                                                                     //adding all the TextFields
     private TextView PlayerOneScore, PlayerTwoScore, playerStatus, edit_PlayerOne, edit_PlayerTwo;
-    private int playerOneScoreCount, playerTwoScoreCount, roundCount;
+    private int playerOneScoreCount, playerTwoScoreCount;
 
 
     //adding all buttons
@@ -23,8 +23,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button btn_0, btn_1, btn_2, btn_3, btn_4, btn_5, btn_6, btn_7, btn_8;                           //all the X and O positions as buttons
 
                                                                                                     //assigning values to players and empty
-    int playerOne = 0;                                                                              //PlayerOne is consider as 'X'
-    int playerTwo = 1;                                                                              //PlayerTwo is consider as 'O'
+    int playerOne = 0;                                                                              //PlayerOne is consider as '0'
+    int playerTwo = 1;                                                                              //PlayerTwo is consider as '1'
     int[] filledPos = {-1, -1, -1, -1, -1, -1, -1, -1, -1};                                         //-1 is consider empty
 
                                                                                                     //adding activePlayer and GameState
@@ -72,11 +72,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_8.setOnClickListener(this);
 
                                                                                                     //making all Scores and gameCount to '0' when the app starts
-        roundCount = 0;
         playerOneScoreCount = 0;
         playerTwoScoreCount = 0;
 
-        TextView PlyOne = findViewById(R.id.PlayerOne);
+        TextView PlyOne = findViewById(R.id.PlayerOne);                                             //Inflater
         PlyOne.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         inflater.show(getSupportFragmentManager(), "example dialog");
 
     }
+    //if the PlayerName is empty then it will restore them to default state other then leaving them empty
     @Override
     public void applyTexts(String PlayerOne, String PlayerTwo) {
         if (PlayerOne.length() == 0) edit_PlayerOne.setText("Player One");
@@ -150,7 +150,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             ((Button) v).setTextColor(Color.parseColor("#70FFEA"));
             playerStatus.setText(edit_PlayerOne.getText().toString() + " turn");
         }
-        roundCount++;                                                                               //adding +1 to the roundCount
         resetTurns.setVisibility(View.VISIBLE);                                                     //Setting the ResetTurn Button Visible after Click so it can be reset
 
 
@@ -178,7 +177,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         });
         CheckForWin();
-
     }
 
     //Creating logic to find winner on every Click
@@ -209,16 +207,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         playerTwoScoreCount++;
                         updatePlayerScore();
                         Toast.makeText(this, edit_PlayerTwo.getText().toString() + "  Won", Toast.LENGTH_SHORT).show();
-
                     }
-                    roundCount = 0;
                 }
             }
         }
     }
-
-
-
     public void updatePlayerScore() {                                                           //updating player Scores
         PlayerOneScore.setText(Integer.toString(playerOneScoreCount));
         PlayerTwoScore.setText(Integer.toString(playerTwoScoreCount));
